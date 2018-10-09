@@ -58,7 +58,7 @@ public class EmployeeServlet extends HttpServlet {
 
 	private void getEmployees(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			List<Employee> list = dao.getEmployees();
+			List<Employee> list = dao.getEmployees(request.getParameter("searchText"));
 			request.setAttribute("list", list);
 			request.getRequestDispatcher("WEB-INF/pages/index.jsp").forward(request, response);
 		} catch (IOException e) {

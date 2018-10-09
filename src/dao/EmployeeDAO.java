@@ -93,8 +93,7 @@ public class EmployeeDAO {
 		
 	}
 
-	public List<Employee> getEmployees() {
-		String searchText = null;
+	public List<Employee> getEmployees(String searchText) {
 		String sql = "select * from employee where 1=1 ";
 		List<Employee> list = new ArrayList<>();
 		if (searchText != null && !searchText.equals(""))
