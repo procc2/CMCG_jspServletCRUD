@@ -25,7 +25,7 @@ public class EmployeeDAO {
 		this.jdbcPassword = jdbcPassword;
 	}
 
-	public void connect() throws SQLException {
+	protected void connect() throws SQLException {
 		if (jdbcConnection == null || jdbcConnection.isClosed()) {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");

@@ -9,9 +9,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.EmployeeDAO;
+import dao.UserDAO;
 import model.Employee;
+import model.User;
 
 public class EmployeeServlet extends HttpServlet {
 	private EmployeeDAO dao;
@@ -29,8 +32,10 @@ public class EmployeeServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		HttpSession session = req.getSession();
+		User u = (User) session.getAttribute("currentUser");
 		String action = req.getServletPath();
+		if(u != null) {
 		switch (action) {
 		case "/insertForm":
 			toInsertForm(req, resp);
@@ -54,8 +59,11 @@ public class EmployeeServlet extends HttpServlet {
 		default:
 			break;
 		}
+		}else {
+			toLogin(req , resp);
+		}
 	}
-
+	
 	private void getEmployees(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			List<Employee> list = dao.getEmployees(request.getParameter("searchText"));
@@ -119,6 +127,29 @@ public class EmployeeServlet extends HttpServlet {
 		}
 		
 	}
+	private void toLogin(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/pages/login.jsp");
+			dispatcher.forward(request, response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+//	private void login(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+//		String userName = request.getParameter("userName");
+//		String password = request.getParameter("password");
+//		User u = userDao.login(userName, password);
+//		if(u!=null) {
+//			HttpSession session = request.getSession(true);
+//			session.setAttribute("currentUser", u);
+//			doGet(request, response);
+//		}
+//	}
 	private void updateEmployee(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));
