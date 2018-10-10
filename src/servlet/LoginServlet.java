@@ -34,13 +34,6 @@ public class LoginServlet extends HttpServlet {
 		if(u!=null) {
 			HttpSession session = request.getSession(true);
 			session.setAttribute("currentUser", u);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/");
-			try {
-				dispatcher.forward(request, response);
-			} catch (ServletException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			response.sendRedirect("/jspServletCRUD/");
 		}
 	}
